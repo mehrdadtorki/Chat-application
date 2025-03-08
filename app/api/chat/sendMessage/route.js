@@ -1,4 +1,3 @@
-// app/api/chat/sendMessage/route.js
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 
