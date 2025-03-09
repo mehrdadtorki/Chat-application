@@ -30,7 +30,7 @@ export function SignUpForm({ className, ...props }) {
 
       if (response.ok) {
         toast.success("Registration successful! Please sign in.");
-        router.push("/login");
+        router.push("/profile");
       } else {
         toast.error(data.error || "Registration failed");
       }
