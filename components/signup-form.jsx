@@ -18,19 +18,27 @@ export function SignUpForm({ className, ...props }) {
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
+    const profile = formData.get("profile");
+    const headers = formData.get("headers");
+    const biography = formData.get("biography");
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          password,
+          profile,
+          headers,
+          biography,
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Registration successful! Please sign in.");
-        router.push("/profile");
       } else {
         toast.error(data.error || "Registration failed");
       }
@@ -104,7 +112,7 @@ export function SignUpForm({ className, ...props }) {
               </div>
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <a href="/login" className="underline underline-offset-4">
+                <a href="/auth/login" className="underline underline-offset-4">
                   Sign in
                 </a>
               </div>

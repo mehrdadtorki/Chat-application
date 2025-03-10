@@ -28,6 +28,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ThemeToggle } from "./theme-toggle";
+import UsersList from "./users/usersList";
 
 const data = {
   user: {
@@ -175,6 +176,7 @@ export function AppSidebar({ ...props }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <UsersList />
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
