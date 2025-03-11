@@ -36,7 +36,7 @@ const UsersList = () => {
     <div className="w-full px-2">
       <h1>Users List</h1>
       <ul>
-        {!loading ? (
+        {loading ? (
           <div className="grid gap-4">
             <div className="w-full flex items-center space-x-4">
               <Skeleton className="h-10 w-12 rounded-full" />
