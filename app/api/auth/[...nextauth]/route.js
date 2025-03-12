@@ -1,4 +1,3 @@
-// app/api/auth/[...nextauth]/route.js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
@@ -18,19 +17,22 @@ export const authOptions = {
             `Authentication attempt for user: ${credentials.username}`
           );
 
-          const user = await pool.query(
-            "SELECT id, username, password_hash FROM users WHERE username = $1",
+          const userQuery = await pool.query(
+            `SELECT id, username, password_hash, profile, header_image, biography 
+             FROM users WHERE username = $1`,
             [credentials.username]
           );
 
-          if (user.rows.length === 0) {
+          if (userQuery.rows.length === 0) {
             console.error(`User not found: ${credentials.username}`);
             throw new Error("User not found");
           }
 
+          const user = userQuery.rows[0];
+
           const isValid = await bcrypt.compare(
             credentials.password,
-            user.rows[0].password_hash
+            user.password_hash
           );
 
           if (!isValid) {
@@ -39,7 +41,22 @@ export const authOptions = {
           }
 
           console.log(`User authenticated: ${credentials.username}`);
-          return { id: user.rows[0].id, username: user.rows[0].username };
+
+          // Convert profile and header_image to base64 strings if present
+          const profileUrl = user.profile
+            ? Buffer.from(user.profile).toString("utf8")
+            : null;
+          const headerImageUrl = user.header_image
+            ? Buffer.from(user.header_image).toString("utf8")
+            : null;
+
+          return {
+            id: user.id,
+            username: user.username,
+            profile: profileUrl, // Converted to base64 string
+            header_image: headerImageUrl, // Converted to base64 string
+            biography: user.biography,
+          };
         } catch (error) {
           console.error("Authentication error:", error.message);
           throw new Error(error.message);
@@ -52,12 +69,18 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.profile = user.profile;
+        token.header_image = user.header_image;
+        token.biography = user.biography;
       }
       return token;
     },
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.username = token.username;
+      session.user.profile = token.profile;
+      session.user.header_image = token.header_image;
+      session.user.biography = token.biography;
       return session;
     },
   },

@@ -9,8 +9,9 @@ export default function NotFound() {
   const router = useRouter(); // Initialize the router
 
   const handleGoHome = () => {
-    router.push("/"); // Navigate to the homepage
+    router.push("/chat"); // Navigate to the homepage
   };
+
   return (
     <div className="flex flex-col justify-center items-center h-dvh w-full gap-6">
       <div className="flex justify-center items-center">
@@ -25,7 +26,9 @@ export default function NotFound() {
         <p className="text-base font-normal mb-6 text-center max-w-md">
           <span>
             Check the URL, head back to the{" "}
-            <Button variant="outline">Return To Home</Button>
+            <Button variant="outline" onClick={handleGoHome}>
+              Return To Home
+            </Button>
           </span>
         </p>
       </div>
