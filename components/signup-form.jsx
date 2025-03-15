@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import background from "../public/static/illustration/auth-bg1.svg";
-import OverlaySVG from "../public/static/illustration/welcome.svg";
+import OverlaySVG from "../public/static/illustration/signup.svg";
 import Image from "next/image";
 
 export function SignUpForm({ className, ...props }) {
@@ -206,7 +206,7 @@ export function SignUpForm({ className, ...props }) {
                 className="absolute inset-0 dark:[filter:brightness(0.5)]"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <Image src={OverlaySVG} alt="Overlay" width={200} height={200} />
+                <Image src={OverlaySVG} alt="Overlay" width={300} height={300} />
               </div>
             </div>
           </CardContent>
