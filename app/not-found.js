@@ -2,14 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import animationData from "@/public/static/illustration/404NotFound.json";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
+// Dynamically import Lottie with SSR disabled
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 export default function NotFound() {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const handleGoHome = () => {
-    router.push("/chat"); // Navigate to the homepage
+    router.push("/chat");
   };
 
   return (
@@ -32,7 +35,6 @@ export default function NotFound() {
           </span>
         </p>
       </div>
-
       <p className="text-base font-normal text-center">
         <span className="font-semibold">Still lost?</span> Contact us for help!
       </p>
