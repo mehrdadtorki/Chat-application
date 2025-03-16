@@ -1,5 +1,6 @@
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
+import { QueryClientProvider } from "./providers/queryClient-provider";
 import { SessionProviders } from "./providers/session-provider";
 import "./styles/globals.css";
 
@@ -25,9 +26,11 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProviders>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+          </QueryClientProvider>
         </SessionProviders>
       </body>
     </html>
