@@ -1,53 +1,57 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useMutate } from "@/hooks/useMutations";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { motion } from "framer-motion";
 import background from "../public/static/illustration/auth-bg1.svg";
 import OverlaySVG from "../public/static/illustration/signup.svg";
-import Image from "next/image";
+import { useEffect } from "react";
 
 export function SignUpForm({ className, ...props }) {
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const { mutate, isPending } = useMutate("/api/auth/register", "POST", {
+    onSuccess: () => {
+      toast.success("Registration successful! Redirecting...");
+      router.push("/chat");
+    },
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.error || "An error occurred. Please try again."
+      );
+    },
+  });
+
+  useEffect(() => {
+    if (isPending) {
+      console.log("Mutation is loading...");
+    } else {
+      console.log("Mutation is not loading.");
+    }
+  }, [isPending]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
-    const profile = formData.get("profile");
-    const headers = formData.get("headers");
-    const biography = formData.get("biography");
+    const confirmPassword = formData.get("confirmPassword");
 
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password,
-          profile,
-          headers,
-          biography,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success("Registration successful! Please sign in.");
-      } else {
-        toast.error(data.error || "Registration failed");
-      }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
     }
+
+    mutate({ username, password });
   };
 
   // Animation variants
@@ -156,9 +160,23 @@ export function SignUpForm({ className, ...props }) {
                     required
                   />
                 </motion.div>
+                <motion.div variants={itemVariants} className="grid gap-3">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    required
+                  />
+                </motion.div>
+
                 <motion.div variants={buttonVariants}>
-                  <Button type="submit" className="w-full">
-                    Sign up
+                  <Button type="submit" className="w-full" disabled={isPending}>
+                    {isPending ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      "Sign Up"
+                    )}
                   </Button>
                 </motion.div>
                 <motion.div
