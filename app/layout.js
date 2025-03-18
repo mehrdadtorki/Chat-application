@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="system dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
