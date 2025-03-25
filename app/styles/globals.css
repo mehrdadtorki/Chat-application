@@ -124,3 +124,42 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 0.5rem; /* Thin scrollbar */
+  height: 0.5rem; /* For horizontal scrollbar */
+  background: transparent; /* No background for the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db; /* Light grey (Tailwind gray-300) */
+  border-radius: 0.25rem; /* Rounded thumb */
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af; /* Darker grey on hover (Tailwind gray-400) */
+}
+
+/* Scrollbar Buttons (Arrows) */
+::-webkit-scrollbar-button {
+  display: block; /* Ensure buttons are visible */
+  height: 0.5rem; /* Small button size */
+  background: #d1d5db; /* Light grey for buttons */
+  border-radius: 0.125rem; /* Slightly rounded */
+}
+
+::-webkit-scrollbar-button:hover {
+  background: #9ca3af; /* Darker grey on hover */
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent; /* Light grey thumb, transparent track */
+}
