@@ -69,7 +69,7 @@ const UsersList = () => {
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="focus:outline-none">
+                <button className="p-1 rounded-sm focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
                   <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
                 </button>
               </DropdownMenuTrigger>
