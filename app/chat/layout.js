@@ -40,7 +40,13 @@ export default function ChatLayout({ children }) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <Toaster />
         <SocketProvider>
-          <SidebarProvider>
+          <SidebarProvider
+            style={{
+              "--sidebar-width": "20rem",
+              "--sidebar-width-mobile": "22rem",
+              "--sidebar-width-icon": "3rem",
+            }}
+          >
             <AppSidebar />
             <SidebarInset>
               <header className="flex h-16 shrink-0 items-center gap-2">
