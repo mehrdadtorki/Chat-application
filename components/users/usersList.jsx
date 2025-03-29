@@ -1,7 +1,7 @@
 "use client"; // For Next.js App Router client component
 
 import { useFetch } from "@/hooks/useQuery";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -12,11 +12,17 @@ import {
 import { Skeleton } from "../ui/skeleton";
 import { useState } from "react";
 import UserProfileModal from "../modals/UserProfileModal";
+import defaultImage from "@/public/static/illustration/default-avatar.png";
+import Image from "next/image";
 
-const UsersList = () => {
+const UsersList = ({ userId }) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const { data, isLoading, error } = useFetch(["users"], "/api/users");
+  const { data, isLoading, error } = useFetch(["users"], "/api/users", {
+    headers: { "user-id": userId },
+    enabled: !!userId,
+  });
+
   if (error)
     return <div className="px-4 py-2 text-red-500">Error: {error}</div>;
 
@@ -45,7 +51,8 @@ const UsersList = () => {
                     src={user?.profile}
                   />
                   <AvatarFallback className="h-9 w-9 rounded-lg">
-                    {user?.username.slice(0, 2)}
+                    <User className="h-3/5 w-3/5 text-muted-foreground" />
+                    {/* {user?.username.slice(0, 2)} */}
                   </AvatarFallback>
                 </Avatar>
                 <div>

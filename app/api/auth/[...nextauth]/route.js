@@ -18,7 +18,7 @@ export const authOptions = {
           );
 
           const userQuery = await pool.query(
-            `SELECT id, username, password_hash, profile, header_image, biography 
+            `SELECT id, username, password_hash, profile, biography 
              FROM users WHERE username = $1`,
             [credentials.username]
           );
@@ -46,15 +46,11 @@ export const authOptions = {
           const profileUrl = user.profile
             ? Buffer.from(user.profile).toString("utf8")
             : null;
-          const headerImageUrl = user.header_image
-            ? Buffer.from(user.header_image).toString("utf8")
-            : null;
 
           return {
             id: user.id,
             username: user.username,
             profile: profileUrl, // Converted to base64 string
-            header_image: headerImageUrl, // Converted to base64 string
             biography: user.biography,
           };
         } catch (error) {
@@ -70,7 +66,6 @@ export const authOptions = {
         token.id = user.id;
         token.username = user.username;
         token.profile = user.profile;
-        token.header_image = user.header_image;
         token.biography = user.biography;
       }
       return token;
@@ -79,7 +74,6 @@ export const authOptions = {
       session.user.id = token.id;
       session.user.username = token.username;
       session.user.profile = token.profile;
-      session.user.header_image = token.header_image;
       session.user.biography = token.biography;
       return session;
     },

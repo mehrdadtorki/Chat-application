@@ -135,7 +135,7 @@ const data = {
       url: "#",
       icon: Send,
     },
-  ]
+  ],
   // projects: [
   //   {
   //     name: "Design Engineering",
@@ -162,7 +162,9 @@ export function AppSidebar({ ...props }) {
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem style={{ display: "flex", alignItems: 'center', gap: '0.5rem' }}>
+          <SidebarMenuItem
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          >
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
@@ -179,7 +181,7 @@ export function AppSidebar({ ...props }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <UsersList />
+        <UsersList userId={session?.user?.id} />
         <NavMain items={data.navMain} />
         {/* <NavProjects projects={data.projects} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />

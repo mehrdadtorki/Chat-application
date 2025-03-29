@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import pool from "@/lib/db";
 
 export async function POST(request) {
-  const { username, password, profile, headers, biography } =
+  const { username, password, profile, biography } =
     await request.json();
 
   try {
@@ -12,8 +12,8 @@ export async function POST(request) {
 
     // Save the user to the database
     const result = await pool.query(
-      "INSERT INTO users (username, password_hash, profile, header_image, biography) VALUES ($1, $2, $3, $4, $5) RETURNING id",
-      [username, passwordHash, profile, headers, biography]
+      "INSERT INTO users (username, password_hash, profile, biography, date_of_join) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+      [username, passwordHash, profile, biography, new Date()]
     );
 
     return NextResponse.json({ success: true, userId: result.rows[0].id });

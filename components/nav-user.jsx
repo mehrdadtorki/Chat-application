@@ -29,7 +29,7 @@ import LogoutButton from "./ui/custom/logoutButton";
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
-  console.log(user);
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
