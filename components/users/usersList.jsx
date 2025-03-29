@@ -12,8 +12,6 @@ import {
 import { Skeleton } from "../ui/skeleton";
 import { useState } from "react";
 import UserProfileModal from "../modals/UserProfileModal";
-import defaultImage from "@/public/static/illustration/default-avatar.png";
-import Image from "next/image";
 
 const UsersList = ({ userId }) => {
   const [selectedUser, setSelectedUser] = useState(null);
