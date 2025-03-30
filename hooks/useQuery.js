@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export function useFetch(key, url, options = {}) {
-  console.log(options?.headers)
   return useQuery({
     queryKey: key,
     queryFn: async () => {
