@@ -22,13 +22,13 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
-        <QueryProvider>
-          <SessionProviders>
+        <SessionProviders>
+          <QueryProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               {children}
             </ThemeProvider>
-          </SessionProviders>
-        </QueryProvider>
+          </QueryProvider>
+        </SessionProviders>
       </body>
     </html>
   );

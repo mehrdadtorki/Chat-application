@@ -43,6 +43,7 @@ export function SignUpForm({ className, ...props }) {
 
     const formData = new FormData(e.target);
     const username = formData.get("username");
+    const email = formData.get("email"); // Add email field
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
 
@@ -51,7 +52,7 @@ export function SignUpForm({ className, ...props }) {
       return;
     }
 
-    mutate({ username, password });
+    mutate({ username, email, password }); // Include email in the payload
   };
 
   // Animation variants
@@ -148,6 +149,16 @@ export function SignUpForm({ className, ...props }) {
                     name="username"
                     type="text"
                     placeholder="username"
+                    required
+                  />
+                </motion.div>
+                <motion.div variants={itemVariants} className="grid gap-3">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="email@example.com"
                     required
                   />
                 </motion.div>

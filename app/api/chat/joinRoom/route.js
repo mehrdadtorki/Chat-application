@@ -1,34 +1,39 @@
-import { NextResponse } from "next/server";
+// app/api/chat/joiningroom/route.js
 import pool from "@/lib/db";
 
-export async function POST(request) {
-  const { username, room } = await request.json();
+export async function POST(req) {
+  const { user1_id, user2_id } = await req.json();
+
+  const roomName = [user1_id, user2_id].sort().join("_");
 
   try {
-    // Check if user exists, otherwise create
-    const user = await pool.query(
-      "INSERT INTO users (username) VALUES ($1) ON CONFLICT (username) DO NOTHING RETURNING id",
-      [username]
+    const client = await pool.connect();
+
+    // Check if room exists
+    const existing = await client.query(
+      "SELECT id FROM rooms WHERE name = $1",
+      [roomName]
     );
 
-    // Check if room exists, otherwise create
-    const roomData = await pool.query(
-      "INSERT INTO rooms (name) VALUES ($1) ON CONFLICT (name) DO NOTHING RETURNING id",
-      [room]
-    );
+    let roomId;
+    if (existing.rows.length > 0) {
+      roomId = existing.rows[0].id;
+    } else {
+      // Create new room
+      const result = await client.query(
+        "INSERT INTO rooms (name) VALUES ($1) RETURNING id",
+        [roomName]
+      );
+      roomId = result.rows[0].id;
+    }
 
-    // Fetch message history
-    const messages = await pool.query(
-      `SELECT username, text, timestamp
-       FROM messages
-       JOIN users ON messages.user_id = users.id
-       WHERE room_id = (SELECT id FROM rooms WHERE name = $1)
-       ORDER BY timestamp ASC`,
-      [room]
+    client.release();
+    return new Response(JSON.stringify({ roomId }), { status: 200 });
+  } catch (err) {
+    console.error("Join room error:", err);
+    return new Response(
+      JSON.stringify({ error: "Failed to join or create room" }),
+      { status: 500 }
     );
-
-    return NextResponse.json({ messages: messages.rows });
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
