@@ -1,9 +1,16 @@
-// app/test-chat/page.jsx
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useChat } from "ai/react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SendHorizonal, User } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import robotImage from "@/public/static/illustration/robot.png";
 
 export default function ChatBotPage({ user }) {
   const {
@@ -17,6 +24,12 @@ export default function ChatBotPage({ user }) {
   } = useChat({
     api: "/api/chat/chat-bot",
   });
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSendMessage = useCallback(
     async (e) => {
@@ -55,70 +68,113 @@ export default function ChatBotPage({ user }) {
       ...message,
       id: index,
       timestamp: message.timestamp
-        ? new Date(message.timestamp).toLocaleTimeString()
+        ? format(new Date(message.timestamp), "p")
         : "",
     }));
   }, [messages]);
 
   return (
-    <div className="w-full mx-auto p-4 flex flex-col flex-1">
-      <div className="w-full rounded-lg border-zinc-200 border-1 item-center flex">
-        <h1 className="text-3xl font-bold mb-6">Chat Bot</h1>
+    <div className="h-full w-full flex flex-col rounded-2xl border-muted border-2 bg-background">
+      {/* Header */}
+      <div className="w-full flex items-center justify-between px-6 py-4 border-b bg-muted/50 gap-2">
+        <Image
+          src={robotImage}
+          alt="AI Bot"
+          className="h-6 w-6 rounded-full"
+          // objectFit="cover"
+          // className="absolute inset-0 dark:[filter:brightness(0.5)]"
+        />
+        <h2 className="text-md text-blue-400 dark:text-blue-200 font-semibold flex-1">
+          You are connecting to <span className="font-bold text-blue-500 dark:text-blue-400">AI Bot</span>, start chatting with it!
+        </h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-        {formattedMessages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex items-start space-x-3 gap-2 ${
-              message.role === "user" ? "flex-row-reverse" : ""
-            }`}
-          >
-            <Avatar className="rounded-full">
-              <AvatarImage
-                className="rounded-full"
-                src={user?.profile}
-                // src={message.role === "user" ? user?.profile : "/default-avatar.png" }
-              />
-              <AvatarFallback className="rounded-full">
-                {/* <User className="h-3/5 w-3/5 text-muted-foreground" /> */}
-                {user?.username.slice(0, 2)}
-              </AvatarFallback>
-            </Avatar>
-            <div
-              className={`p-4 rounded-lg max-w-xs ${
-                message.role === "user" ? "bg-blue-100" : "bg-gray-100"
-              }`}
-            >
-              <span className="text-sm font-semibold">
-                {message.role === "user" ? user.username : "AI"}
-              </span>
-              <p className="mt-1 whitespace-pre-wrap">{message.content}</p>
-              <span className="text-xs text-gray-500">{message.timestamp}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Messages */}
+      <ScrollArea className="flex-1 overflow-y-hidden p-4 space-y-2 relative bg-background">
+        {/* Optional background pattern */}
+        <div
+          className="absolute inset-0 z-0 opacity-20"
+          style={{
+            backgroundRepeat: "repeat",
+            backgroundSize: "390px 390px",
+            backgroundImage: `url(@/public/static/illustration/shapeBg.svg)`,
+          }}
+        />
+        <div className="relative z-10 flex flex-col space-y-3">
+          {formattedMessages.map((msg) => {
+            const isUser = msg.role === "user";
+            const avatarSrc = isUser ? user?.profile : "/bot-avatar.png";
 
-      <div className="w-full">
-        <form
-          onSubmit={handleSendMessage}
-          className="flex gap-2 sticky bottom-0 bg-white p-2 border-t"
-        >
-          <input
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            return (
+              <div
+                key={msg.id}
+                className={cn("flex gap-2 items-end", {
+                  "justify-end": isUser,
+                  "justify-start": !isUser,
+                })}
+              >
+                {!isUser && (
+                  <Avatar className="h-9 w-9 rounded-full ring-2 ring-muted shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-background">
+                    <AvatarImage src={avatarSrc} />
+                    <AvatarFallback>
+                      <User className="w-4 h-4 text-muted-foreground" />
+                    </AvatarFallback>
+                  </Avatar>
+                )}
+
+                <div
+                  className={cn(
+                    "max-w-[75%] px-4 py-2 rounded-xl shadow-sm text-sm",
+                    isUser
+                      ? "bg-blue-400 text-primary-foreground rounded-br-none"
+                      : "bg-muted text-muted-foreground rounded-bl-none"
+                  )}
+                >
+                  <div className="text-xs mb-0.5">
+                    {isUser ? user.username : "AI"}
+                  </div>
+                  <div className="text-md font-semibold whitespace-pre-wrap">
+                    {msg.content}
+                  </div>
+                  <div className="text-xs mt-1 text-right opacity-70">
+                    {msg.timestamp}
+                  </div>
+                </div>
+
+                {isUser && (
+                  <Avatar className="h-9 w-9 rounded-full ring-2 ring-muted shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-background">
+                    <AvatarImage src={avatarSrc} />
+                    <AvatarFallback>
+                      <User className="w-4 h-4 text-muted-foreground" />
+                    </AvatarFallback>
+                  </Avatar>
+                )}
+              </div>
+            );
+          })}
+
+          <div ref={bottomRef} />
+        </div>
+      </ScrollArea>
+
+      {/* Input */}
+      <div className="border-t p-4 bg-background rounded-b-2xl">
+        <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+          <Input
             value={input}
             onChange={handleInputChange}
             placeholder="Type your message..."
+            className="flex-1"
             disabled={isLoading}
           />
-          <button
+          <Button
             type="submit"
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="bg-blue-400 hover:bg-blue-500 transition-all"
+            size="icon"
             disabled={isLoading}
           >
-            {isLoading ? "Sending..." : "Send"}
-          </button>
+            <SendHorizonal className="w-6 h-6" />
+          </Button>
         </form>
       </div>
     </div>

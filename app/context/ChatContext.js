@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from "react";
 const ChatViewContext = createContext();
 
 export const ChatViewProvider = ({ children }) => {
-  const [view, setView] = useState("bot");
+  const [view, setView] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
   const value = {
@@ -21,7 +21,7 @@ export const ChatViewProvider = ({ children }) => {
   );
 };
 
-export const useChatContext  = () => {
+export const useChatContext = () => {
   const context = useContext(ChatViewContext);
   if (!context)
     throw new Error("useChatContext must be used within ChatViewProvider");

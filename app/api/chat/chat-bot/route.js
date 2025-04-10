@@ -21,7 +21,7 @@ export async function POST(req) {
         body: JSON.stringify({
           inputs: `User: ${userMessage}\nAssistant:`,
           parameters: {
-            max_new_tokens: 150,
+            max_new_tokens: 100,
             temperature: 0.7,
           },
         }),

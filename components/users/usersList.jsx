@@ -27,8 +27,8 @@ const UsersList = ({ userId }) => {
     return <div className="px-4 py-2 text-red-500">Error: {error}</div>;
 
   const handleUserClick = (user) => {
-    setSelectedUser({ id: user.id, username: user.username }); // Set selected user
-    if (user.username === "hashoor" || user.username === "mehrdadtorki1") {
+    setSelectedUser({ id: user.id, username: user.username, profile: user?.profile }); // Set selected user
+    if (user.username === "hashoor" || user.username === "mehrdadtorki") {
       setView("user");
     } else {
       setView("bot");
