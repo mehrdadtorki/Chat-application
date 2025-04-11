@@ -80,7 +80,7 @@ export default function ChatBotPage({ user }) {
         <Image
           src={robotImage}
           alt="AI Bot"
-          className="h-6 w-6 rounded-full"
+          className="h-10 w-10 rounded-full"
           // objectFit="cover"
           // className="absolute inset-0 dark:[filter:brightness(0.5)]"
         />

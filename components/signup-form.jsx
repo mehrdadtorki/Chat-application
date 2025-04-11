@@ -40,20 +40,26 @@ export function SignUpForm({ className, ...props }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData(e.target);
     const username = formData.get("username");
-    const email = formData.get("email"); // Add email field
+    const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
-
+  
+    if (username.toLowerCase().includes("ai-assistant")) {
+      toast.error("Username cannot contain 'AI-assistant'");
+      return;
+    }
+  
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-
-    mutate({ username, email, password }); // Include email in the payload
+  
+    mutate({ username, email, password });
   };
+  
 
   // Animation variants
   const cardVariants = {

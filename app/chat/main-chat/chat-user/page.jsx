@@ -89,7 +89,7 @@ export default function ChatPage({ currentUser, selectedUser }) {
     <div className="h-full w-full flex flex-col rounded-2xl border-muted border-2 bg-background">
       {/* Header */}
       <div className="w-full flex items-center justify-between px-6 py-4 border-b bg-muted/50 gap-2">
-        <Avatar className="h-12 w-12 rounded-full ring-muted shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-background">
+        <Avatar className="h-10 w-10 max-h-12 max-w-12 rounded-full ring-muted shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-background">
           <AvatarImage src={selectedUser?.profile} />
           <AvatarFallback>
             <User className="w-4 h-4 text-muted-foreground" />
@@ -97,9 +97,9 @@ export default function ChatPage({ currentUser, selectedUser }) {
         </Avatar>
         <Badge
           variant="outline"
-          className={`absolute bottom-0 right-0 w-3 h-3 rounded-full p-0 border-2 border-background bg-green-500`}
+          className={`relative top-1/3 right-4 w-3 h-3 rounded-full p-0 border-2 border-background bg-green-500`}
         />
-        <h2 className="flex-1 text-md font-semibold text-blue">
+        <h2 className="flex-1 text-md font-semibold text-slate-800 dark:text-slate-200">
           {selectedUser?.username || "user"}
         </h2>
       </div>
@@ -116,7 +116,7 @@ export default function ChatPage({ currentUser, selectedUser }) {
           }}
         />
 
-        <div className="relative z-10 flex flex-col space-y-3">
+        <div className="relative flex flex-col space-y-3">
           {loading ? (
             <ChatSkeleton />
           ) : (

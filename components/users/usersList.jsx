@@ -28,10 +28,10 @@ const UsersList = ({ userId }) => {
 
   const handleUserClick = (user) => {
     setSelectedUser({ id: user.id, username: user.username, profile: user?.profile }); // Set selected user
-    if (user.username === "hashoor" || user.username === "mehrdadtorki") {
-      setView("user");
-    } else {
+    if (user.username.includes("AI-assistant")) {
       setView("bot");
+    } else {
+      setView("user");
     }
   };
 
