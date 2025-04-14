@@ -2,8 +2,8 @@
 
 import { useChatContext } from "@/app/context/ChatContext";
 import ChatBotPage from "./chat-bot/page";
-import ChatUserPage from "./chat-user/page";
 import ChatNotFound from "./chat-not-found/page";
+import ChatUserPage from "./chat-user/page";
 
 const ChatMainPage = ({ user }) => {
   const { view, selectedUser } = useChatContext();

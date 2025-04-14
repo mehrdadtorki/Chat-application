@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useUserPresence from "@/hooks/useUserPresence";
+import useWatchUserPresence from "@/hooks/useWatchUserPresence";
 import { supabase } from "@/lib/supabaseClient";
 import { cn } from "@/lib/utils";
 import { formatHumanReadableDate } from "@/utils/formatDate";
 import { getOrCreateRoom } from "@/utils/getOrCreateRoom";
+import timeAgo from "@/utils/timeAgo";
 import { SendHorizonal, User } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatSkeleton } from "./components/skeleton";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 
 export default function ChatPage({ currentUser, selectedUser }) {
   const [roomId, setRoomId] = useState(null);
@@ -20,6 +22,9 @@ export default function ChatPage({ currentUser, selectedUser }) {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
+
+  useUserPresence(currentUser?.id);
+  const userStatus = useWatchUserPresence(selectedUser?.id);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -97,13 +102,22 @@ export default function ChatPage({ currentUser, selectedUser }) {
         </Avatar>
         <Badge
           variant="outline"
-          className={`relative top-1/3 right-4 w-3 h-3 rounded-full p-0 border-2 border-background bg-green-500`}
+          className={`relative top-1/3 right-4 w-3 h-3 rounded-full p-0 border-2 border-background ${
+            userStatus?.is_online ? "bg-green-500" : "bg-slate-400"
+          }`}
         />
         <h2 className="flex-1 text-md font-semibold text-slate-800 dark:text-slate-200">
           {selectedUser?.username || "user"}
         </h2>
+        {console.log(selectedUser?.last_seen)}
+        <span>
+          {userStatus?.is_online
+            ? "🟢 Online"
+            : userStatus?.last_seen
+            ? `🕓 Last seen ${timeAgo(userStatus.last_seen)}`
+            : "⏳ Loading..."}
+        </span>
       </div>
-
       {/* Messages */}
       <ScrollArea className="flex-1 overflow-y-hidden p-4 space-y-2 relative bg-background">
         {/* Optional background pattern */}

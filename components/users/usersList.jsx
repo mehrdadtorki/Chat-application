@@ -27,7 +27,7 @@ const UsersList = ({ userId }) => {
     return <div className="px-4 py-2 text-red-500">Error: {error}</div>;
 
   const handleUserClick = (user) => {
-    setSelectedUser({ id: user.id, username: user.username, profile: user?.profile }); // Set selected user
+    setSelectedUser({ id: user.id, username: user.username, profile: user?.profile, last_seen: user.last_seen }); // Set selected user
     if (user.username.includes("AI-assistant")) {
       setView("bot");
     } else {
