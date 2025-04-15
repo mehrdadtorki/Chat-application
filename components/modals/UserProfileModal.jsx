@@ -22,7 +22,7 @@ const UserProfileModal = ({ user, onClose }) => {
 
   return (
     <Dialog open={!!user} onOpenChange={onClose}>
-      <DialogContent className="w-large p-0 overflow-hidden">
+      <DialogContent className="p-0 overflow-hidden min-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

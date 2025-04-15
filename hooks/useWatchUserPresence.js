@@ -19,7 +19,7 @@ const useWatchUserPresence = (watchedUserId) => {
           filter: `id=eq.${watchedUserId}`,
         },
         (payload) => {
-            setUserStatus({
+          setUserStatus({
             is_online: payload.new.is_online,
             last_seen: payload.new.last_seen,
           });

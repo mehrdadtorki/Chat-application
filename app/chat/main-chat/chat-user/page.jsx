@@ -109,12 +109,13 @@ export default function ChatPage({ currentUser, selectedUser }) {
         <h2 className="flex-1 text-md font-semibold text-slate-800 dark:text-slate-200">
           {selectedUser?.username || "user"}
         </h2>
-        {console.log(selectedUser?.last_seen)}
+        {console.log("last_seen", selectedUser?.last_seen)}
+        {console.log("is_online", userStatus?.is_online)}
         <span>
           {userStatus?.is_online
             ? "🟢 Online"
             : userStatus?.last_seen
-            ? `🕓 Last seen ${timeAgo(userStatus.last_seen)}`
+            ? `🕓 Last seen ${timeAgo(userStatus?.last_seen)}`
             : "⏳ Loading..."}
         </span>
       </div>
