@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendHorizonal } from "lucide-react";
+import dynamic from "next/dynamic";
 import animationData from "../../../../public/static/illustration/NoChatAnimation.json";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
