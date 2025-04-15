@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Lottie from "lottie-react";
 import { SendHorizonal } from "lucide-react";
 import animationData from "../../../../public/static/illustration/NoChatAnimation.json";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const ChatNotFound = () => {
   return (
