@@ -33,7 +33,7 @@ export default function ChatPage({ currentUser, selectedUser }) {
   useEffect(() => {
     if (!currentUser?.id || !selectedUser?.id) return;
 
-    getOrCreateRoom(currentUser.id, selectedUser.id).then(setRoomId);
+    getOrCreateRoom(currentUser?.id, selectedUser?.id).then(setRoomId);
   }, [currentUser?.id, selectedUser?.id]);
 
   useEffect(() => {
@@ -83,12 +83,12 @@ export default function ChatPage({ currentUser, selectedUser }) {
 
     await supabase.from("messages").insert({
       content: newMessage,
-      user_id: currentUser.id,
+      user_id: currentUser?.id,
       room_id: roomId,
     });
 
     setNewMessage("");
-  }, [newMessage, currentUser.id, roomId]);
+  }, [newMessage, currentUser?.id, roomId]);
 
   return (
     <div className="h-full w-full flex flex-col rounded-2xl border-muted border-2 bg-background">
@@ -137,12 +137,12 @@ export default function ChatPage({ currentUser, selectedUser }) {
           ) : (
             <>
               {messages.map((msg) => {
-                const isCurrentUser = msg.user_id === currentUser.id;
+                const isCurrentUser = msg?.user_id === currentUser?.id;
                 const user = isCurrentUser ? currentUser : selectedUser;
 
                 return (
                   <div
-                    key={msg.id}
+                    key={msg?.id}
                     className={cn("flex gap-2 items-end", {
                       "justify-end": isCurrentUser,
                       "justify-start": !isCurrentUser,

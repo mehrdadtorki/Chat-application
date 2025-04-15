@@ -49,10 +49,10 @@ const UsersList = ({ userId }) => {
       ) : (
         <div className="h-full w-full overflow-auto py-2 space-y-2">
           {data?.users
-            .filter((user) => user.id !== userId) // Exclude current user
+            .filter((user) => user?.id !== userId) // Exclude current user
             .map((user) => (
               <div
-                key={user.id}
+                key={user?.id}
                 onClick={() => handleUserClick(user)}
                 className="flex items-center justify-between p-2 hover:bg-muted rounded-md cursor-pointer"
               >
