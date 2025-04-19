@@ -67,10 +67,10 @@ export default function FeedbackModal({ isOpen, setIsOpen }) {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
         transition={{ duration: 0.3 }}
-        className="rounded-lg shadow-lg w-full max-w-md"
+        className=" w-full max-w-md flex items-center justify-center"
       >
         <Card
-          className="w-full text-gray-800 p-0 shadow-lg relative"
+          className="w-4/5 text-gray-800 p-0 shadow-lg relative"
           style={{
             backgroundImage: `url(/static/illustration/shapeBG.svg)`,
             backgroundSize: "cover",

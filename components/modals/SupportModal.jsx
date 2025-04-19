@@ -23,7 +23,7 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
-        className="rounded-lg shadow-lg w-3/5"
+        className="rounded-lg shadow-lg lg:w-3/5"
       >
         {isLoading ? (
           <div className="flex justify-center">
