@@ -1,7 +1,15 @@
 "use client";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogOverlay,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -39,19 +47,15 @@ export default function FeedbackModal({ isOpen, setIsOpen }) {
     },
   });
 
-  if (!isOpen) return null;
-
   const { mutate, isPending } = useMutate("/api/feedback", "POST", {
     onSuccess: () => {
-      toast.success("Thank you for youre feedback");
+      toast.success("Thank you for your feedback");
       form.reset();
+      setIsOpen(false);
     },
     onError: (error) => {
       toast.error(
         error?.response?.data?.error || "An error occurred. Please try again."
-      );
-      toast.error(
-        error.message || "Oops! Youre feedback cant be send. Please try again"
       );
     },
   });
@@ -61,143 +65,148 @@ export default function FeedbackModal({ isOpen, setIsOpen }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-1000">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ duration: 0.3 }}
-        className=" w-full max-w-md flex items-center justify-center"
-      >
-        <Card
-          className="w-4/5 text-gray-800 p-0 shadow-lg relative"
-          style={{
-            backgroundImage: `url(/static/illustration/shapeBG.svg)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogOverlay className="bg-black/50 fixed inset-0 z-50" />
+      <DialogContent className="p-0 bg-transparent border-none shadow-none flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-md"
         >
-          <CardHeader className="sticky top-0 p-6 border-b">
-            <CardTitle className="text-2xl font-bold text-blue-500">
-              Send Us Feedback
-            </CardTitle>
-            <p className="text-sm text-gray-500">
-              We’d love to hear your thoughts!
-            </p>
-            <Button
-              variant="ghost"
-              className="absolute top-4 right-4 text-gray-400 hover:text-blue-500"
-              onClick={() => setIsOpen(false)}
-            >
-              ✕
-            </Button>
-          </CardHeader>
-
-          <CardContent className="p-6">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
+          <Card
+            className="text-gray-800 shadow-lg relative"
+            style={{
+              backgroundImage: `url(/static/illustration/shapeBG.svg)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <CardContent className="p-6">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-blue-500">
+                  Send Us Feedback
+                </DialogTitle>
+                <DialogDescription className="text-sm text-gray-500">
+                  We’d love to hear your thoughts!
+                </DialogDescription>
+                <Button
+                  variant="ghost"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-blue-500"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-400">Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your name"
-                            className="text-sm text-gray-800"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
+                  ✕
+                </Button>
+              </DialogHeader>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6 mt-4"
                 >
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-400">Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your email"
-                            className="text-sm text-gray-800"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-400">Message</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Your feedback"
-                            className="text-sm text-gray-800"
-                            rows={4}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Button
-                    type="submit"
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
-                    disabled={isPending}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    {isPending ? (
-                      <Loader2 className="animate-spin" />
-                    ) : (
-                      <span className="flex items-center gap-2">
-                        <Send className="w-4 h-4" />
-                        Send Feedback
-                      </span>
-                    )}
-                  </Button>
-                </motion.div>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-400">Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your name"
+                              className="text-sm text-gray-800"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-400">Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your email"
+                              className="text-sm text-gray-800"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-400">
+                            Message
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Your feedback"
+                              className="text-sm text-gray-800"
+                              rows={4}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+                      disabled={isPending}
+                    >
+                      {isPending ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <Send className="w-4 h-4" />
+                          Send Feedback
+                        </span>
+                      )}
+                    </Button>
+                  </motion.div>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </DialogContent>
+    </Dialog>
   );
 }

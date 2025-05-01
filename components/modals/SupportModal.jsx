@@ -12,13 +12,18 @@ import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
 import dynamic from "next/dynamic";
 import animationData from "../../public/static/illustration/loading.json";
+
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
-  if (!isOpen) return null; // Don't render if modal is closed
+  if (!isOpen) return null;
 
   return (
-    <div className="w-full fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="w-full fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -27,11 +32,7 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
       >
         {isLoading ? (
           <div className="flex justify-center">
-            <Lottie
-              animationData={animationData}
-              loop={true}
-              className="w-3/4"
-            />
+            <Lottie animationData={animationData} loop className="w-3/4" />
           </div>
         ) : (
           <Card className="w-full max-h-[80vh] overflow-y-auto text-gray-800 p-0 shadow-lg relative">
@@ -57,11 +58,13 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
               transition={{ duration: 0.5 }}
               className="p-6 space-y-8"
             >
+              {/* Contact Us Section */}
               <section>
                 <h2 className="text-xl font-semibold mb-4 text-gray-400">
                   Contact Us
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Email Card */}
                   <Card
                     className="shadow-md"
                     style={{
@@ -86,6 +89,8 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
                       </Button>
                     </CardContent>
                   </Card>
+
+                  {/* Phone Card */}
                   <Card
                     className="shadow-md"
                     style={{
@@ -113,6 +118,7 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
                 </div>
               </section>
 
+              {/* FAQ Section */}
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -152,6 +158,7 @@ export default function SupportModal({ isOpen, setIsOpen, isLoading }) {
                 </Accordion>
               </motion.section>
 
+              {/* Documentation Section */}
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

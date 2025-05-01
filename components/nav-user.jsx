@@ -26,9 +26,11 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import LogoutButton from "./ui/custom/logoutButton";
+import { useChatContext } from "@/app/context/ChatContext";
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
+ const { setView } = useChatContext();
 
   return (
     <SidebarMenu>
@@ -70,7 +72,7 @@ export function NavUser({ user }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {setView("planing")}}>
                 <Sparkles />
                 Upgrade to Pro
               </DropdownMenuItem>

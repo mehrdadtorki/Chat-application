@@ -4,6 +4,7 @@ import { useChatContext } from "@/app/context/ChatContext";
 import ChatBotPage from "./chat-bot/page";
 import ChatNotFound from "./chat-not-found/page";
 import ChatUserPage from "./chat-user/page";
+import UpgradePage from "../planing/Planing";
 
 const ChatMainPage = ({ user }) => {
   const { view, selectedUser } = useChatContext();
@@ -14,6 +15,8 @@ const ChatMainPage = ({ user }) => {
         <ChatBotPage user={user} />
       ) : view === "user" ? (
         <ChatUserPage currentUser={user} selectedUser={selectedUser} />
+      ) : view === "planing" ? (
+        <UpgradePage />
       ) : (
         <ChatNotFound />
       )}
