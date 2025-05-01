@@ -46,7 +46,7 @@ const plans = [
 export default function UpgradeToProPage() {
   return (
     <div
-      className="relative h-full w-full py-24 px-6 flex flex-col items-center justify-center bg-background overflow-hidden"
+      className="min-h-full w-full md:py-24 md:px-6 flex flex-col items-center md:justify-center bg-background"
       style={{
         backgroundImage:
           "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1012%26quot%3b)' fill='none'%3e%3cpath d='M-43.26 367.11C107.04 361.54 293.96 119.35 505.57 120.71 717.19 122.07 664.47 503.64 779.99 563.99' stroke='rgba(51%2c121%2c194%2c0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-250.99 189.95C-107.71 189.41 10.09 70.59 311.1 77.95 612.11 85.31 682.16 580.16 873.19 622.2' stroke='rgba(51%2c121%2c194%2c0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-154.76 45.56C-35.7 46.62 41.87 151.35 305.29 168.76 568.7 186.17 615.97 537.88 765.33 563.69' stroke='rgba(51%2c121%2c194%2c0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-40.24 282.52C73.93 282.73 185.4 352.52 411.04 352.52 636.68 352.52 623.48 278.09 862.32 282.52 1101.16 286.95 1167.6 641.45 1313.6 666.18' stroke='rgba(51%2c121%2c194%2c0.58)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-252.8 363.06C-90.3 357.65 41.65 104.78 344.37 105.46 647.08 106.14 755.24 537.22 941.53 562.42' stroke='rgba(51%2c121%2c194%2c0.58)' stroke-width='2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1012'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e\")",
@@ -81,8 +81,9 @@ export default function UpgradeToProPage() {
             transition={{ delay: 0.1 * idx }}
           >
             <Card
+              key={plan.name}
               className={clsx(
-                "relative overflow-hidden rounded-3xl p-6 shadow-xl border border-muted transition-all duration-300 group backdrop-blur-lg transform hover:scale-[1.03] hover:shadow-2xl",
+                "relative overflow-hidden rounded-3xl p-6 shadow-xl border border-muted transition-all duration-300 group backdrop-blur-lg transform hover:scale-[1.03] hover:shadow-2xl w-full max-w-md mx-auto",
                 plan.highlight
                   ? "bg-gradient-to-br from-blue-500/20 to-purple-500/10 border-blue-400/40"
                   : "bg-white/50 dark:bg-zinc-900/40 hover:bg-white/60 dark:hover:bg-zinc-900/50"
